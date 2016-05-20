@@ -15,6 +15,8 @@ def run_simulations(count, how="random_distribution"):
     state_map =  dict.fromkeys(state_electors.keys())
     outcomes = []
     hill_wins = 0
+    hill_stomps = 0
+    trump_stomps = 0
     for i in range(count):
         hillary_count = 0
         trump_count = 0
@@ -29,8 +31,17 @@ def run_simulations(count, how="random_distribution"):
         outcomes.append((hillary_count, trump_count))
         if hillary_count > trump_count:
             hill_wins += 1
-    print(outcomes)
-    print(hill_wins)
-
+        if hillary_count > 370:
+            hill_stomps += 1
+        if trump_count > 370:
+            trump_stomps += 1
+    # print(outcomes)
+    print("Hillary wins {hill_wins} out of {count} simulations. ({percent}%)".format(hill_wins=hill_wins,
+                                                                                    count=count, percent=hill_wins*100/count))
+    print("Hillary landslides {hill_stomps} out of {count} simulations ({percent}%)".format(hill_stomps=hill_stomps,
+                                                                                           count=count, percent=hill_stomps*100/count))
+    print("Trump landslides {trump_stomps} out of {count} simulations ({percent}%)".format(trump_stomps=trump_stomps,
+                                                                                           count=count,
+                                                                                           percent=trump_stomps *100/ count))
 calc_average_electoral_vote()
-run_simulations(10000)
+run_simulations(100000)
